@@ -1,0 +1,12 @@
+.form {
+}
+
+.form__label {
+  display: block;
+  margin: 15px;
+}
+
+.form__caption {
+  display: block;
+  margin: 5px;
+}
