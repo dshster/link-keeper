@@ -1,10 +1,13 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { appendLink } from '../actions';
+
 import './append.css';
 
 class Append extends Component {
   constructor(props) {
     super(props);
-
+    
     this.state = {
       caption: '',
       url: '',
@@ -18,6 +21,7 @@ class Append extends Component {
   }
 
   handleSubmit(event) {
+    this.props.dispatch(appendLink(this.state));
     event.preventDefault();
   }
 
@@ -53,7 +57,7 @@ class Append extends Component {
 
         <label className="form__label">
           <span className="form__caption">Ссылка:</span>
-          <input type="url" name="url"
+          <input type="text" name="url"
                  value={url}
                  onChange={this.setLinkUrl}/>
         </label>
@@ -70,4 +74,4 @@ class Append extends Component {
     );
   }
 }
-export default Append;
+export default connect()(Append);
