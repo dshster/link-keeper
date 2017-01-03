@@ -1,18 +1,20 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { appendLink } from '../actions';
+import { appendLink } from '../../actions';
 
 import './append.css';
+
+const defaultState = {
+  caption: '',
+  url: '',
+  description: '',
+};
 
 class Append extends Component {
   constructor(props) {
     super(props);
-    
-    this.state = {
-      caption: '',
-      url: '',
-      description: '',
-    };
+
+    this.state = defaultState;
 
     this.setLinkCaption = this.setLinkCaption.bind(this);
     this.setLinkUrl = this.setLinkUrl.bind(this);
@@ -22,6 +24,7 @@ class Append extends Component {
 
   handleSubmit(event) {
     this.props.dispatch(appendLink(this.state));
+    this.setState(defaultState);
     event.preventDefault();
   }
 

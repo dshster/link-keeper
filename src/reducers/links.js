@@ -1,6 +1,8 @@
+import { ADD_LINK } from '../actions/types';
+
 const link = (state = {}, action) => {
   switch (action.type) {
-    case 'ADD_LINK':
+    case ADD_LINK:
       return {
         id: action.id,
         caption: action.caption,
@@ -14,7 +16,7 @@ const link = (state = {}, action) => {
 
 const links = (state = [], action) => {
   switch (action.type) {
-    case 'ADD_LINK':
+    case ADD_LINK:
       return [
         ...state,
         link(undefined, action),
