@@ -25,6 +25,7 @@ class Append extends Component {
   handleSubmit(event) {
     this.props.dispatch(appendLink(this.state));
     this.setState(defaultState);
+    this.props.router.push('/');
     event.preventDefault();
   }
 

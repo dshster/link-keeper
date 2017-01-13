@@ -1,16 +1,22 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import { createStore } from 'redux'
-import linksApplication from './reducers';
+import { Router, Route, IndexRoute } from 'react-router';
 
-import Application from './application';
+import store, { history } from './store';
 
-let store = createStore(linksApplication, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
+import Application from './components/application';
+import Append from './components/append';
+import Links from './components/list';
 
 ReactDOM.render(
   <Provider store={store}>
-    <Application />
+    <Router history={history}>
+      <Route path="/" component={Application}>
+        <IndexRoute component={Links}></IndexRoute>
+        <Route path="/append" component={Append}></Route>
+      </Route>
+    </Router>
   </Provider>,
   window.document.getElementById('application'),
 );

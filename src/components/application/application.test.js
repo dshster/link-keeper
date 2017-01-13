@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Application from './application';
+import Application from './index';
 
 describe('Application', () => {
   it('render application without crashing', () => {

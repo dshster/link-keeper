@@ -1,8 +1,11 @@
 import { combineReducers } from 'redux';
+import { routerReducer } from 'react-router-redux';
+
 import links from './links';
 
-const linksApplication = combineReducers({
-  links
+const applicationReducer = combineReducers({
+  links,
+  routing: routerReducer
 });
 
-export default linksApplication;
+export default applicationReducer;
