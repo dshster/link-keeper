@@ -13,8 +13,8 @@ ReactDOM.render(
   <Provider store={store}>
     <Router history={history}>
       <Route path="/" component={Application}>
-        <IndexRoute component={Links}></IndexRoute>
-        <Route path="/append" component={Append}></Route>
+        <IndexRoute component={Links} />
+        <Route path="/append" component={Append} />
       </Route>
     </Router>
   </Provider>,
