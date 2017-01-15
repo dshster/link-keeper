@@ -1,4 +1,4 @@
-import { ADD_LINK } from './types';
+import { ADD_LINK, UPLOAD_LINK, UPLOADED_LINK } from './types';
 
 let nextLinkId = 0;
 
@@ -7,5 +7,13 @@ export const appendLink = link => ({
   id: ++nextLinkId,
   caption: link.caption,
   url: link.url,
-  description: link.description
+  description: link.description,
+});
+
+export const uploadLink = () => ({
+  type: UPLOAD_LINK,
+});
+
+export const uploadedLink = () => ({
+  type: UPLOADED_LINK,
 });

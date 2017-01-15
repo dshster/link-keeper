@@ -1,20 +1,36 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { appendLink } from '../../actions';
+import { appendLink, uploadLink, uploadedLink } from '../../actions';
 
 import './append.css';
 
-const Append = ({ dispatch, router }) => {
+function delayedSubmitLink(action) {
+  return dispatch => {
+    dispatch(uploadLink());
+
+    return new Promise(resolve => {
+      // fetch POST
+      window.setTimeout(() => {
+        dispatch(action);
+        dispatch(uploadedLink());
+        resolve();
+      }, 1000);
+    });
+  };
+}
+
+const Append = ({ dispatch, router, statuses }) => {
   const form = {};
 
   const handleSubmit = event => {
-    dispatch(appendLink({
+    dispatch(delayedSubmitLink(appendLink({
       caption: form.caption.value,
       url: form.url.value,
       description: form.description.value,
-    }));
+    }))).then(() => {
+      router.push('/');
+    });
 
-    router.push('/');
     event.preventDefault();
   };
 
@@ -35,9 +51,13 @@ const Append = ({ dispatch, router }) => {
         <textarea name="description" cols="30" rows="10" ref={node => { form.description = node }} />
       </label>
 
-      <button type="submit">Добавить</button>
+      <button type="submit" disabled={statuses.upload}>Добавить</button>
     </form>
   );
 };
 
-export default connect()(Append);
+const mapStateToProps = state => ({
+  statuses: state.statuses,
+});
+
+export default connect(mapStateToProps)(Append);
