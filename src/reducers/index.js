@@ -5,7 +5,7 @@ import links from './links';
 
 const applicationReducer = combineReducers({
   links,
-  routing: routerReducer
+  routing: routerReducer,
 });
 
 export default applicationReducer;

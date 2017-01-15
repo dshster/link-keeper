@@ -10,7 +10,7 @@ const Append = ({ dispatch, router }) => {
   const handleSubmit = event => {
     dispatch(appendLink({
       caption: form.caption.value,
-      link: form.link.value,
+      url: form.url.value,
       description: form.description.value,
     }));
 
@@ -27,7 +27,7 @@ const Append = ({ dispatch, router }) => {
 
       <label className="form__label">
         <span className="form__caption">Ссылка:</span>
-        <input type="text" name="link" ref={node => { form.link = node }} />
+        <input type="text" name="url" ref={node => { form.url = node }} />
       </label>
 
       <label className="form__label">

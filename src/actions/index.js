@@ -4,7 +4,7 @@ let nextLinkId = 0;
 
 export const appendLink = link => ({
   type: ADD_LINK,
-  id: nextLinkId++,
+  id: ++nextLinkId,
   caption: link.caption,
   url: link.url,
   description: link.description

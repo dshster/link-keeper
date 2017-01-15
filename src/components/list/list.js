@@ -1,11 +1,13 @@
 import React from 'react';
 import { Link } from 'react-router';
 
+import Item from '../item';
+
 const List = ({ links }) => (
   <div className="list">
     <Link to="/append">Append</Link>
     <ul>
-      {links.map(link => <li key={link.id}>{link.caption}</li>)}
+      {links.map(link => <Item {...link} key={link.id} />)}
     </ul>
   </div>
 );
