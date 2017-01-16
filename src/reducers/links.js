@@ -1,4 +1,4 @@
-import { ADD_LINK } from '../actions/types';
+import { ADD_LINK, FETCH_LINKS } from '../actions/types';
 
 const link = (state = {}, action) => {
   switch (action.type) {
@@ -21,6 +21,8 @@ const links = (state = [], action) => {
         ...state,
         link(undefined, action),
       ];
+    case FETCH_LINKS:
+      return action.links;
     default:
       return state;
   }
