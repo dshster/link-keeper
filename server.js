@@ -8,15 +8,15 @@ const filebuffer = fs.readFileSync(dbFileName);
 const db = new sqlite.Database(filebuffer);
 
 const app = express();
+const jsonParser = bodyParser.json();
 
 app.set('port', (process.env.PORT || 3001));
-app.use(bodyParser.json());
 
-app.get('/api/links', (req, res) => {
+app.get('/api/links', (request, response) => {
   const result = db.exec('SELECT * FROM `links` ORDER BY `id` ASC;');
 
   if (result[0]) {
-    res.json(result[0].values.map(value => {
+    response.json(result[0].values.map(value => {
       const row = {};
 
       result[0].columns.forEach((column, index) => {
@@ -24,29 +24,31 @@ app.get('/api/links', (req, res) => {
       });
 
       return row;
-    }))
+    }));
   }
 });
 
-app.put('/api/link', (req, res) => {
-  const values = {
-    ':id': null,
-    ':caption': req.body.caption,
-    ':url': req.body.url,
-    ':description': req.body.description,
-  };
+app.put('/api/link', jsonParser, (request, response) => {
+  if (request.body) {
+    const values = {
+      ':id': null,
+      ':caption': request.body.caption,
+      ':url': request.body.url,
+      ':description': request.body.description,
+    };
 
-  db.run('INSERT INTO links VALUES (:id, :caption, :url, :description);', values);
+    db.run('INSERT INTO links VALUES (:id, :caption, :url, :description);', values);
 
-  const buffer = new Buffer(db.export());
+    const buffer = new Buffer(db.export());
 
-  const fd = fs.openSync(dbFileName, 'w');
+    const fd = fs.openSync(dbFileName, 'w');
 
-  fs.write(fd, buffer, 0, buffer.length, 0, function(error, written) {
-    res.send(JSON.stringify({ error, written }));
-  });
-
-  db.close();
+    fs.write(fd, buffer, 0, buffer.length, 0, (error, written) => {
+      response.send(JSON.stringify({ error, written }));
+    });
+  } else {
+    response.send(JSON.stringify({ error: true }));
+  }
 });
 
 app.listen(app.get('port'), () => {
