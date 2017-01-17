@@ -1,10 +1,8 @@
 import { ADD_LINK, UPLOAD_LINK, UPLOADED_LINK, FETCH_LINKS } from './types';
 
-let nextLinkId = 0;
-
-export const appendLink = link => ({
+export const appendLink = (link, id = 1) => ({
   type: ADD_LINK,
-  id: ++nextLinkId,
+  id: ++id,
   caption: link.caption,
   url: link.url,
   description: link.description,
