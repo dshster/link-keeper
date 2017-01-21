@@ -1,19 +1,27 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { Link } from 'react-router';
 
 import Item from '../item';
-const List = ({ fetchLinks, links }) => {
 
-  fetchLinks();
+class List extends Component {
+  constructor(props) {
+    super(props);
 
-  return (
-    <div className="list">
-      <Link to="/append">Append</Link>
-      <ul>
-        {links.map(link => <Item {...link} key={link.id}/>)}
-      </ul>
-    </div>
-  );
-};
+    this.props.fetchLinks();
+  }
+
+  render() {
+    const { links } = this.props;
+
+    return (
+      <div className="list">
+        <Link to="/append">Append</Link>
+        <ul>
+          {links.map(link => <Item {...link} key={link.id}/>)}
+        </ul>
+      </div>
+    );
+  }
+}
 
 export default List;
