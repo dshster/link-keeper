@@ -5,32 +5,38 @@
   "private": true,
   "proxy": "http://localhost:3001/",
   "scripts": {
-    "start": "react-scripts start",
+    "start": "concurrently \"npm server\" \"react-scripts start\"",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
-    "server": "concurrently \"node ./server.js\" \"npm start\""
+    "db": "mongod --rest --httpinterface --dbpath ./database",
+    "server": "node ./app/server.js"
   },
   "author": "",
   "license": "ISC",
+  "engines" : {
+    "node" : ">=6.9",
+    "npm": ">=4.0"
+  },
   "devDependencies": {
-    "body-parser": "^1.15.2",
     "concurrently": "^3.1.0",
     "eslint": "^3.12.2",
     "eslint-config-airbnb": "^13.0.0",
     "eslint-plugin-import": "^2.2.0",
     "eslint-plugin-jsx-a11y": "^2.2.3",
     "eslint-plugin-react": "^6.8.0",
-    "express": "^4.14.0",
-    "react-scripts": "^0.8.4",
-    "sql.js": "^0.4.0"
+    "react-scripts": "^0.8.4"
   },
   "dependencies": {
+    "body-parser": "^1.15.2",
+    "express": "^4.14.0",
+    "mongoose": "^4.7.7",
     "react": "^15.4.1",
     "react-dom": "^15.4.1",
     "react-redux": "^5.0.1",
     "react-router": "^3.0.1",
     "react-router-redux": "^4.0.7",
     "redux": "^3.6.0",
-    "redux-thunk": "^2.1.0"
+    "redux-thunk": "^2.1.0",
+    "sql.js": "^0.4.0"
   }
 }
