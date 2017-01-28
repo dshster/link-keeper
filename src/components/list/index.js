@@ -9,11 +9,11 @@ function delayedFetchLinks() {
     const { links } = getState();
 
     if (links.length === 0) {
-      window.fetch('http://localhost:3000/api/links', {
+      window.fetch('http://localhost:3000/api/links?limit=5', {
         method: 'GET',
         accept: 'application/json'
       }).then(response => response.json()
-        .then(links => dispatch(fetchLinks(links))));
+        .then(result => dispatch(fetchLinks(result.links))));
     }
   };
 }

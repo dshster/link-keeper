@@ -3,11 +3,16 @@ import { ADD_LINK, FETCH_LINKS } from '../actions/types';
 const link = (state = {}, action) => {
   switch (action.type) {
     case ADD_LINK:
+      const { link } = action;
+
       return {
-        id: action.id,
-        caption: action.caption,
-        url: action.url,
-        description: action.description,
+        _id: link._id,
+        datetime: link.datetime,
+        card: {
+          caption: link.card.caption,
+          href: link.card.href,
+          description: link.card.description,
+        },
       };
     default:
       return state;
@@ -18,8 +23,8 @@ const links = (state = [], action) => {
   switch (action.type) {
     case ADD_LINK:
       return [
-        ...state,
         link(undefined, action),
+        ...state,
       ];
     case FETCH_LINKS:
       return action.links;

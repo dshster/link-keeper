@@ -1,5 +1,7 @@
 import links from './links';
-import { ADD_LINK } from '../actions/types';
+import {ADD_LINK} from '../actions/types';
+
+const now = new Date();
 
 describe('links reducer', () => {
   it('should handle initial state', () => {
@@ -9,40 +11,62 @@ describe('links reducer', () => {
   it('should handle ADD_LINK in empty store', () => {
     expect(links([], {
       type: ADD_LINK,
-      id: 0,
-      caption: 'caption',
-      url: 'url',
-      description: 'description',
+      link: {
+        _id: 0,
+        datetime: now,
+        card: {
+          caption: 'caption',
+          href: 'href',
+          description: 'description',
+        }
+      }
     })).toEqual([{
-      id: 0,
-      caption: 'caption',
-      url: 'url',
-      description: 'description',
+      _id: 0,
+      datetime: now,
+      card: {
+        caption: 'caption',
+        href: 'href',
+        description: 'description',
+      }
     }]);
   });
 
   it('should handle ADD_LINK', () => {
     expect(links([{
-      id: 0,
-      caption: 'caption',
-      url: 'url',
-      description: 'description',
+      _id: 0,
+      datetime: now,
+      card: {
+        caption: 'caption',
+        href: 'href',
+        description: 'description',
+      }
     }], {
       type: ADD_LINK,
-      id: 1,
-      caption: 'another caption',
-      url: 'another url',
-      description: 'another description',
+      link: {
+        _id: 1,
+        datetime: now,
+        card: {
+          caption: 'another caption',
+          href: 'another href',
+          description: 'another description',
+        }
+      }
     })).toEqual([{
-      id: 0,
-      caption: 'caption',
-      url: 'url',
-      description: 'description',
+      _id: 1,
+      datetime: now,
+      card: {
+        caption: 'another caption',
+        href: 'another href',
+        description: 'another description',
+      }
     }, {
-      id: 1,
-      caption: 'another caption',
-      url: 'another url',
-      description: 'another description',
+      _id: 0,
+      datetime: now,
+      card: {
+        caption: 'caption',
+        href: 'href',
+        description: 'description',
+      }
     }]);
   });
 });

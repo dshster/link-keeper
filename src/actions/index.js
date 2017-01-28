@@ -1,19 +1,13 @@
-import { ADD_LINK, UPLOAD_LINK, UPLOADED_LINK, FETCH_LINKS } from './types';
+import { ADD_LINK, FETCH_PROCESS, FETCH_LINKS } from './types';
 
-export const appendLink = (link, id = 1) => ({
+export const appendLink = link => ({
   type: ADD_LINK,
-  id: ++id,
-  caption: link.caption,
-  url: link.url,
-  description: link.description,
+  link
 });
 
-export const uploadLink = () => ({
-  type: UPLOAD_LINK,
-});
-
-export const uploadedLink = () => ({
-  type: UPLOADED_LINK,
+export const fetchProcess = status => ({
+  type: FETCH_PROCESS,
+  status,
 });
 
 export const fetchLinks = links => ({
