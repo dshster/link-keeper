@@ -8,7 +8,7 @@ const Append = ({ router, statuses, appendLink }) => {
   const handleSubmit = event => {
     appendLink({
       caption: form.caption.value,
-      url: form.url.value,
+      href: form.href.value,
       description: form.description.value,
     }).then(() => {
       router.push('/');
@@ -28,8 +28,8 @@ const Append = ({ router, statuses, appendLink }) => {
 
       <label className="form__label">
         <span className="form__caption">Ссылка:</span>
-        <input type="text" name="url" ref={node => {
-          form.url = node
+        <input type="text" name="href" ref={node => {
+          form.href = node
         }}/>
       </label>
 
@@ -40,7 +40,7 @@ const Append = ({ router, statuses, appendLink }) => {
         }}/>
       </label>
 
-      <button type="submit" disabled={statuses.upload}>Добавить</button>
+      <button type="submit" disabled={statuses.fetch}>Добавить</button>
     </form>
   );
 };

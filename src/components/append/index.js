@@ -1,20 +1,16 @@
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import { appendLink, uploadLink, uploadedLink } from '../../actions';
+import { appendLink, fetchProcess } from '../../actions';
 import Append from './append';
 
 function delayedSubmitLink(action) {
-  return (dispatch, getState) => {
-    const { links } = getState();
-
+  return dispatch => {
     return new Promise((resolve, reject) => {
-      const id = Math.max.apply(this, links.map(link => link.id));
+      dispatch(fetchProcess(true));
 
-      dispatch(uploadLink());
-
-      window.fetch('http://localhost:3000/api/link', {
-        method: 'PUT',
+      window.fetch('http://localhost:3000/api/links', {
+        method: 'POST',
         headers: new Headers({
           'Content-Type': 'application/json'
         }),
@@ -22,16 +18,16 @@ function delayedSubmitLink(action) {
       }).then(response => response.json()
         .then(result => {
           if (!result.error) {
-            dispatch(appendLink(action, id));
-            dispatch(uploadedLink());
-            resolve(result);
+            dispatch(appendLink(result.link));
+            dispatch(fetchProcess(false));
+            resolve();
           }
 
-          dispatch(uploadedLink());
-          reject(result);
+          dispatch(fetchProcess(false));
+          reject();
         }, error => {
-          dispatch(uploadedLink());
-          reject(error);
+          dispatch(fetchProcess(false));
+          reject();
         }));
     });
   };

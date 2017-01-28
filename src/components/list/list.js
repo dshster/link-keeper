@@ -17,7 +17,7 @@ class List extends Component {
       <div className="list">
         <Link to="/append">Append</Link>
         <ul>
-          {links.map(link => <Item {...link} key={link.id}/>)}
+          {links.map(link => <Item {...link} key={link._id}/>)}
         </ul>
       </div>
     );
