@@ -7,7 +7,13 @@ class List extends Component {
   constructor(props) {
     super(props);
 
-    this.props.fetchLinks();
+    this.props.fetchLinks(props.params);
+  }
+
+  componentWillReceiveProps(props) {
+    if (this.props.params.tag !== props.params.tag) {
+      this.props.fetchLinks(props.params);
+    }
   }
 
   render() {

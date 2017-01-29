@@ -11,37 +11,58 @@ const Link = require('./models/link');
 
 router.route('/links')
   .get((request, response) => {
-    const {limit = 5, skip = 0} = request.query;
+    const { limit = 5, skip = 0 } = request.query;
 
     Link.find({})
-      .sort({datetime: 'descending'})
+      .sort({ datetime: 'descending' })
       .skip(skip)
       .limit(limit)
       .exec((error, links) => {
-        response.send(JSON.stringify({links, count: links.length}));
+        response.json({ links, count: links.length })
       });
   })
   .post((request, response) => {
     if (Object.keys(request.body).length) {
-      const {caption, href, description} = request.body;
-      const link = new Link({card: {caption, href, description}});
+      const { caption, href, description } = request.body;
+      const link = new Link({ card: { caption, href, description } });
       const validate = link.validateSync();
 
       if (validate) {
-        response.send(JSON.stringify({error: true, message: validate.errors}));
+        response.json({ error: true, message: validate.errors });
       } else {
         link.save(error => {
           if (error) throw error;
-          response.send(JSON.stringify({link}));
+          response.json({ link });
         });
       }
     } else {
-      response.send(JSON.stringify({error: true}));
+      response.json({ error: true });
     }
   });
 
+router.route('/tags')
+  .get((request, response) => {
+    Link.find().distinct('tags')
+      .exec((error, tags) => {
+        const filteredTags = tags.filter(tag => tag);
+
+        response.json({ tags: filteredTags, count: filteredTags.length });
+      });
+  });
+
+router.route('/tags/:tag')
+  .get((request, response) => {
+    const { tag } = request.params;
+
+    Link.find({ tags: tag })
+      .sort({ datetime: 'descending' })
+      .exec((error, links) => {
+        response.json({ links, count: links.length })
+      });
+  });
+
 router.use((request, response, next) => {
-  const {method, url, params} = request;
+  const { method, url, params } = request;
 
   console.log(method, url, params);
   next();
