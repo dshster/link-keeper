@@ -13,8 +13,9 @@ ReactDOM.render(
   <Provider store={store}>
     <Router history={history}>
       <Route path="/" component={Application}>
-        <IndexRoute component={Links} />
-        <Route path="/append" component={Append} />
+        <IndexRoute component={Links}/>
+        <Route path="/tag/:tag" component={Links}/>
+        <Route path="/append" component={Append}/>
       </Route>
     </Router>
   </Provider>,

@@ -1,13 +1,18 @@
 import React from 'react';
 
+import Tag from '../tag';
+
 const dateLocaleOptions = ['ru-RU', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }];
 const timeLocaleOptions = ['ru-RU', { hour12: false }];
 
-const Item = ({ card, datetime }) => (
+const Item = ({ card, tags, datetime }) => (
   <li className="linkItem">
     <a href={card.href}>{card.caption}</a>
     <span className="date">{(new Date(datetime)).toLocaleDateString(...dateLocaleOptions)}</span>
     <span className="time">{(new Date(datetime)).toLocaleTimeString(...timeLocaleOptions)}</span>
+    <ul className="tagsList">
+      {tags.map(tag => <Tag name={tag} key={tag}/>)}
+    </ul>
     <div>{card.description}</div>
   </li>
 );

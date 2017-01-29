@@ -4,17 +4,20 @@ import { bindActionCreators } from 'redux';
 import { fetchLinks } from '../../actions';
 import List from './list';
 
-function delayedFetchLinks() {
-  return (dispatch, getState) => {
-    const { links } = getState();
+function delayedFetchLinks(params) {
+  const tag = params ? params.tag : false;
+  const limit = 15;
 
-    if (links.length === 0) {
-      window.fetch('http://localhost:3000/api/links?limit=5', {
-        method: 'GET',
-        accept: 'application/json'
-      }).then(response => response.json()
-        .then(result => dispatch(fetchLinks(result.links))));
-    }
+  const fetchUrl = tag
+    ? `http://localhost:3000/api/tags/${tag}`
+    : `http://localhost:3000/api/links?limit=${limit}`;
+
+  return dispatch => {
+    window.fetch(fetchUrl, {
+      method: 'GET',
+      accept: 'application/json'
+    }).then(response => response.json()
+      .then(result => dispatch(fetchLinks(result.links))));
   };
 }
 
