@@ -1,5 +1,5 @@
 import links from './links';
-import {ADD_LINK} from '../actions/types';
+import { ADD_LINK } from '../actions/types';
 
 const now = new Date();
 
@@ -14,6 +14,7 @@ describe('links reducer', () => {
       link: {
         _id: 0,
         datetime: now,
+        tags: [],
         card: {
           caption: 'caption',
           href: 'href',
@@ -23,6 +24,7 @@ describe('links reducer', () => {
     })).toEqual([{
       _id: 0,
       datetime: now,
+      tags: [],
       card: {
         caption: 'caption',
         href: 'href',
@@ -35,6 +37,7 @@ describe('links reducer', () => {
     expect(links([{
       _id: 0,
       datetime: now,
+      tags: [],
       card: {
         caption: 'caption',
         href: 'href',
@@ -45,6 +48,7 @@ describe('links reducer', () => {
       link: {
         _id: 1,
         datetime: now,
+        tags: [],
         card: {
           caption: 'another caption',
           href: 'another href',
@@ -54,6 +58,7 @@ describe('links reducer', () => {
     })).toEqual([{
       _id: 1,
       datetime: now,
+      tags: [],
       card: {
         caption: 'another caption',
         href: 'another href',
@@ -62,6 +67,7 @@ describe('links reducer', () => {
     }, {
       _id: 0,
       datetime: now,
+      tags: [],
       card: {
         caption: 'caption',
         href: 'href',
