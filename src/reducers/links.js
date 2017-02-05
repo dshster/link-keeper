@@ -8,6 +8,7 @@ const link = (state = {}, action) => {
       return {
         _id: link._id,
         datetime: link.datetime,
+        tags: link.tags,
         card: {
           caption: link.card.caption,
           href: link.card.href,

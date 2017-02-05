@@ -1,5 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const morgan = require('morgan');
 const bodyParser = require('body-parser');
 
 const app = express();
@@ -15,16 +16,16 @@ router.route('/links')
 
     Link.find({})
       .sort({ datetime: 'descending' })
-      .skip(skip)
-      .limit(limit)
+      .skip(Number(skip))
+      .limit(Number(limit))
       .exec((error, links) => {
         response.json({ links, count: links.length })
       });
   })
   .post((request, response) => {
     if (Object.keys(request.body).length) {
-      const { caption, href, description } = request.body;
-      const link = new Link({ card: { caption, href, description } });
+      const { caption, href, tags, description } = request.body;
+      const link = new Link({ card: { caption, href, description }, tags });
       const validate = link.validateSync();
 
       if (validate) {
@@ -71,10 +72,11 @@ router.use((request, response, next) => {
 app.set('port', (process.env.PORT || 3001));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(morgan('combined'));
 app.use('/api', router);
 
 app.listen(app.get('port'), () => {
-  mongoose.connect('mongodb://localhost:27017/links');
+  mongoose.connect('mongodb://localhost:27017/link-keeper');
   console.log(`Find the server at: http://localhost:${app.get('port')}/`);
 });
 
