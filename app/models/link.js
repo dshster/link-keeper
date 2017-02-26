@@ -21,6 +21,11 @@ const linkSchema = new mongoose.Schema({
   tags: {
     type: [String],
     index: true
+  },
+  shortId: {
+    type: String,
+    index: true,
+    required: true,
   }
 });
 
