@@ -2,11 +2,11 @@ import React from 'react';
 
 import './append.css';
 
-const Append = ({ router, statuses, appendLink }) => {
+const Append = ({ router, statuses, appendNote }) => {
   const form = {};
 
   const handleSubmit = event => {
-    appendLink({
+    appendNote({
       caption: form.caption.value,
       href: form.href.value,
       description: form.description.value,

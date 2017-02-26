@@ -1,11 +1,11 @@
 import { combineReducers } from 'redux';
 import { routerReducer } from 'react-router-redux';
 
-import links from './links';
+import notes from './notes';
 import statuses from './statuses';
 
 const applicationReducer = combineReducers({
-  links,
+  notes,
   statuses,
   routing: routerReducer,
 });

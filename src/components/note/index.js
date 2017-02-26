@@ -5,7 +5,7 @@ import { fetchNote } from '../../actions';
 import Note from './note';
 
 function delayedFetchNote(params) {
-  const fetchUrl = `http://localhost:3000/api/links/${params.id}`;
+  const fetchUrl = `http://localhost:3000/api/notes/${params.id}`;
 
   return dispatch => {
     window.fetch(fetchUrl, {
@@ -21,7 +21,7 @@ const mapDispatchToProps = dispatch => ({
 });
 
 const mapStateToProps = state => ({
-  links: state.links
+  notes: state.notes
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Note);

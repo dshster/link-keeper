@@ -9,35 +9,35 @@ const router = express.Router();
 
 mongoose.Promise = global.Promise;
 
-const Link = require('./models/link');
+const Note = require('./models/note');
 
-router.route('/links')
+router.route('/notes')
   .get((request, response) => {
     const { limit = 5, skip = 0 } = request.query;
 
-    Link.find({})
+    Note.find({})
       .sort({ datetime: 'descending' })
       .skip(Number(skip))
       .limit(Number(limit))
-      .exec((error, links) => {
-        response.json({ links, count: links.length })
+      .exec((error, notes) => {
+        response.json({ notes, count: notes.length })
       });
   })
   .post((request, response) => {
     if (Object.keys(request.body).length) {
       const { caption, href, tags, description } = request.body;
-      const link = new Link({ card: { caption, href, description }, tags });
+      const note = new Note({ card: { caption, href, description }, tags });
 
-      link.shortId = shortID.objectIDtoShort(link._id);
+      note.shortId = shortID.objectIDtoShort(note._id);
 
-      const validate = link.validateSync();
+      const validate = note.validateSync();
 
       if (validate) {
         response.json({ error: true, message: validate.errors });
       } else {
-        link.save(error => {
+        note.save(error => {
           if (error) throw error;
-          response.json({ link });
+          response.json({ note });
         });
       }
     } else {
@@ -45,14 +45,14 @@ router.route('/links')
     }
   });
 
-router.route('/links/:shortId')
+router.route('/notes/:shortId')
   .get((request, response) => {
     const { shortId } = request.params;
 
     try {
       const id = shortID.shortToObjectID(shortId);
 
-      Link.findById(id, (error, note) => {
+      Note.findById(id, (error, note) => {
         response.json({ note });
       });
     } catch (error) {
@@ -62,7 +62,7 @@ router.route('/links/:shortId')
 
 router.route('/tags')
   .get((request, response) => {
-    Link.find().distinct('tags')
+    Note.find().distinct('tags')
       .exec((error, tags) => {
         const filteredTags = tags.filter(tag => tag);
 
@@ -74,10 +74,10 @@ router.route('/tags/:tag')
   .get((request, response) => {
     const { tag } = request.params;
 
-    Link.find({ tags: tag })
+    Note.find({ tags: tag })
       .sort({ datetime: 'descending' })
-      .exec((error, links) => {
-        response.json({ links, count: links.length });
+      .exec((error, notes) => {
+        response.json({ notes, count: notes.length });
       });
   });
 

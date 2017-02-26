@@ -1,32 +1,32 @@
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import { fetchLinks } from '../../actions';
+import { fetchNotes } from '../../actions';
 import List from './list';
 
-function delayedFetchLinks(params) {
+function delayedFetchNotes(params) {
   const tag = params ? params.tag : false;
   const limit = 15;
 
   const fetchUrl = tag
     ? `http://localhost:3000/api/tags/${tag}`
-    : `http://localhost:3000/api/links?limit=${limit}`;
+    : `http://localhost:3000/api/notes?limit=${limit}`;
 
   return dispatch => {
     window.fetch(fetchUrl, {
       method: 'GET',
       accept: 'application/json'
     }).then(response => response.json()
-      .then(result => dispatch(fetchLinks(result.links))));
+      .then(result => dispatch(fetchNotes(result.notes))));
   };
 }
 
 const mapDispatchToProps = dispatch => ({
-  fetchLinks: bindActionCreators(delayedFetchLinks, dispatch),
+  fetchNotes: bindActionCreators(delayedFetchNotes, dispatch),
 });
 
 const mapStateToProps = state => ({
-  links: state.links
+  notes: state.notes
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(List);

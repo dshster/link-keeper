@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const linkSchema = new mongoose.Schema({
+const noteSchema = new mongoose.Schema({
   card: {
     caption: {
       type: String,
@@ -29,4 +29,4 @@ const linkSchema = new mongoose.Schema({
   }
 });
 
-module.exports = mongoose.model('Link', linkSchema);
+module.exports = mongoose.model('Note', noteSchema);

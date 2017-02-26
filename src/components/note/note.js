@@ -13,8 +13,8 @@ class Note extends Component {
   }
 
   render() {
-    const { links } = this.props;
-    const note = links[0];
+    const { notes } = this.props;
+    const note = notes[0];
 
     return note ? (
         <div className="note">
