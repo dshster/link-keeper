@@ -151,3 +151,11 @@ GitHub.sublime-settings
 app/data/
 app/data
 database
+
+### VisualStudioCode template
+.vscode/*
+.vscode/tasks.json
+.vscode/launch.json
+.vscode/extensions.json
+
+backup

@@ -2,6 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
+const shortID = require('mongodb-short-id');
 
 const app = express();
 const router = express.Router();
@@ -26,6 +27,9 @@ router.route('/links')
     if (Object.keys(request.body).length) {
       const { caption, href, tags, description } = request.body;
       const link = new Link({ card: { caption, href, description }, tags });
+
+      link.shortId = shortID.objectIDtoShort(link._id);
+
       const validate = link.validateSync();
 
       if (validate) {
@@ -37,6 +41,21 @@ router.route('/links')
         });
       }
     } else {
+      response.json({ error: true });
+    }
+  });
+
+router.route('/links/:shortId')
+  .get((request, response) => {
+    const { shortId } = request.params;
+
+    try {
+      const id = shortID.shortToObjectID(shortId);
+
+      Link.findById(id, (error, note) => {
+        response.json({ note });
+      });
+    } catch (error) {
       response.json({ error: true });
     }
   });
@@ -58,16 +77,9 @@ router.route('/tags/:tag')
     Link.find({ tags: tag })
       .sort({ datetime: 'descending' })
       .exec((error, links) => {
-        response.json({ links, count: links.length })
+        response.json({ links, count: links.length });
       });
   });
-
-router.use((request, response, next) => {
-  const { method, url, params } = request;
-
-  console.log(method, url, params);
-  next();
-});
 
 app.set('port', (process.env.PORT || 3001));
 app.use(bodyParser.json());
