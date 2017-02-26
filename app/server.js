@@ -11,11 +11,17 @@ mongoose.Promise = global.Promise;
 
 const Note = require('./models/note');
 
+router.use((request, response, next) => {
+  request.moderated = true;
+  next();
+});
+
 router.route('/notes')
   .get((request, response) => {
     const { limit = 5, skip = 0 } = request.query;
+    const find = request.moderated ? { 'properties.public': true } : {};
 
-    Note.find({})
+    Note.find(find)
       .sort({ datetime: 'descending' })
       .skip(Number(skip))
       .limit(Number(limit))
@@ -25,8 +31,12 @@ router.route('/notes')
   })
   .post((request, response) => {
     if (Object.keys(request.body).length) {
-      const { caption, href, tags, description } = request.body;
-      const note = new Note({ card: { caption, href, description }, tags });
+      const { caption, href, tags, description, public } = request.body;
+      const note = new Note({
+        card: { caption, href, description },
+        properties: { public },
+        tags
+      });
 
       note.shortId = shortID.objectIDtoShort(note._id);
 
@@ -53,7 +63,15 @@ router.route('/notes/:shortId')
       const id = shortID.shortToObjectID(shortId);
 
       Note.findById(id, (error, note) => {
-        response.json({ note });
+        if (request.moderated) {
+          response.json(
+            note.properties.public
+              ? { note }
+              : { error: true }
+          );
+        } else {
+          response.json({ note });
+        }
       });
     } catch (error) {
       response.json({ error: true });
@@ -73,8 +91,11 @@ router.route('/tags')
 router.route('/tags/:tag')
   .get((request, response) => {
     const { tag } = request.params;
+    const find = { tags: tag };
 
-    Note.find({ tags: tag })
+    if (request.moderated) find['properties.public'] = true;
+
+    Note.find(find)
       .sort({ datetime: 'descending' })
       .exec((error, notes) => {
         response.json({ notes, count: notes.length });
