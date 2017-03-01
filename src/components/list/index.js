@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import { fetchNotes } from '../../actions';
+import { fetchNotes, fetchProcess } from '../../actions';
 import List from './list';
 
 function delayedFetchNotes(params) {
@@ -13,11 +13,24 @@ function delayedFetchNotes(params) {
     : `http://localhost:3000/api/notes?limit=${limit}`;
 
   return dispatch => {
-    window.fetch(fetchUrl, {
-      method: 'GET',
-      accept: 'application/json'
-    }).then(response => response.json()
-      .then(result => dispatch(fetchNotes(result.notes))));
+    return new Promise((resolve, reject) => {
+      dispatch(fetchProcess(true));
+
+      window.fetch(fetchUrl, {
+        method: 'GET',
+        accept: 'application/json'
+      }).then(response => response.json()
+        .then(result => {
+          if (!result.error) {
+            dispatch(fetchNotes(result.notes));
+            dispatch(fetchProcess(false));
+            return resolve();
+          }
+
+          dispatch(fetchProcess(false));
+          reject();
+        }));
+    });
   };
 }
 
@@ -26,7 +39,8 @@ const mapDispatchToProps = dispatch => ({
 });
 
 const mapStateToProps = state => ({
-  notes: state.notes
+  notes: state.notes,
+  statuses: state.statuses
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(List);

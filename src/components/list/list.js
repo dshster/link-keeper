@@ -4,10 +4,8 @@ import { Link } from 'react-router';
 import Item from '../item';
 
 class List extends Component {
-  constructor(props) {
-    super(props);
-
-    this.props.fetchNotes(props.params);
+  componentWillMount() {
+    this.props.fetchNotes(this.props.params);
   }
 
   componentWillReceiveProps(props) {
@@ -17,11 +15,12 @@ class List extends Component {
   }
 
   render() {
-    const { notes } = this.props;
+    const { notes, statuses } = this.props;
 
     return (
       <div className="list">
         <Link to="/append">Append</Link>
+        {statuses.fetch ? (<div>Загрузка...</div>) : ''}
         <ul>
           {notes.map(note => <Item {...note} key={note._id}/>)}
         </ul>

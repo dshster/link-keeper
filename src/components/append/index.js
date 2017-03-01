@@ -20,7 +20,7 @@ function delayedSubmitNote(action) {
           if (!result.error) {
             dispatch(appendNote(result.note));
             dispatch(fetchProcess(false));
-            resolve();
+            return resolve();
           }
 
           dispatch(fetchProcess(false));

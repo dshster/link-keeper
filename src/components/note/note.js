@@ -13,10 +13,12 @@ class Note extends Component {
   }
 
   render() {
-    const { notes } = this.props;
+    const { notes, statuses } = this.props;
     const note = notes[0];
 
-    return note ? (
+    return statuses.fetch ? (
+      <div>Загрузка...</div>
+    ) : notes.length ? (
       <div className="note">
         <a href={note.card.href}>{note.card.caption}</a>
         < span className="date">{(new Date(note.datetime)).toLocaleDateString(...dateLocaleOptions)}</span>
@@ -27,9 +29,7 @@ class Note extends Component {
         <div>{note.card.description}</div>
       </div>
     ) : (
-      notes.length === 1 && note === undefined
-        ? <div>Запись отсутствует</div>
-        : <div>Загрузка...</div>
+      <div>Запись отсутствует</div>
     )
   }
 }

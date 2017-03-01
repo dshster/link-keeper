@@ -12,7 +12,7 @@ mongoose.Promise = global.Promise;
 const Note = require('./models/note');
 
 router.use((request, response, next) => {
-  request.moderated = true;
+  request.moderated = false;
   next();
 });
 
