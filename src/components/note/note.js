@@ -13,20 +13,24 @@ class Note extends Component {
   }
 
   render() {
-    const { links } = this.props;
-    const note = links[0];
+    const { notes, statuses } = this.props;
+    const note = notes[0];
 
-    return note ? (
-        <div className="note">
-          <a href={note.card.href}>{note.card.caption}</a>
-          < span className="date">{(new Date(note.datetime)).toLocaleDateString(...dateLocaleOptions)}</span>
-          <span className="time">{(new Date(note.datetime)).toLocaleTimeString(...timeLocaleOptions)}</span>
-          <ul className="tagsList">
-            {note.tags.map(tag => <Tag name={tag} key={tag}/>)}
-          </ul>
-          <div>{note.card.description}</div>
-        </div>
-      ) : <div>Загрузка...</div>
+    return statuses.fetch ? (
+      <div>Загрузка...</div>
+    ) : notes.length ? (
+      <div className="note">
+        <a href={note.card.href}>{note.card.caption}</a>
+        < span className="date">{(new Date(note.datetime)).toLocaleDateString(...dateLocaleOptions)}</span>
+        <span className="time">{(new Date(note.datetime)).toLocaleTimeString(...timeLocaleOptions)}</span>
+        <ul className="tagsList">
+          {note.tags.map(tag => <Tag name={tag} key={tag}/>)}
+        </ul>
+        <div>{note.card.description}</div>
+      </div>
+    ) : (
+      <div>Запись отсутствует</div>
+    )
   }
 }
 

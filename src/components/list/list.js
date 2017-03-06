@@ -4,26 +4,25 @@ import { Link } from 'react-router';
 import Item from '../item';
 
 class List extends Component {
-  constructor(props) {
-    super(props);
-
-    this.props.fetchLinks(props.params);
+  componentWillMount() {
+    this.props.fetchNotes(this.props.params);
   }
 
   componentWillReceiveProps(props) {
     if (this.props.params.tag !== props.params.tag) {
-      this.props.fetchLinks(props.params);
+      this.props.fetchNotes(props.params);
     }
   }
 
   render() {
-    const { links } = this.props;
+    const { notes, statuses } = this.props;
 
     return (
       <div className="list">
         <Link to="/append">Append</Link>
+        {statuses.fetch ? (<div>Загрузка...</div>) : ''}
         <ul>
-          {links.map(link => <Item {...link} key={link._id}/>)}
+          {notes.map(note => <Item {...note} key={note._id}/>)}
         </ul>
       </div>
     );

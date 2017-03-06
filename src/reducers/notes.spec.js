@@ -1,17 +1,17 @@
-import links from './links';
-import { ADD_LINK } from '../actions/types';
+import notes from './notes';
+import { ADD_NOTE } from '../actions/types';
 
 const now = new Date();
 
-describe('links reducer', () => {
+describe('notes reducer', () => {
   it('should handle initial state', () => {
-    expect(links(undefined, {})).toEqual([]);
+    expect(notes(undefined, {})).toEqual([]);
   });
 
-  it('should handle ADD_LINK in empty store', () => {
-    expect(links([], {
-      type: ADD_LINK,
-      link: {
+  it('should handle ADD_NOTE in empty store', () => {
+    expect(notes([], {
+      type: ADD_NOTE,
+      note: {
         _id: 0,
         datetime: now,
         tags: [],
@@ -33,8 +33,8 @@ describe('links reducer', () => {
     }]);
   });
 
-  it('should handle ADD_LINK', () => {
-    expect(links([{
+  it('should handle ADD_NOTE', () => {
+    expect(notes([{
       _id: 0,
       datetime: now,
       tags: [],
@@ -44,8 +44,8 @@ describe('links reducer', () => {
         description: 'description',
       }
     }], {
-      type: ADD_LINK,
-      link: {
+      type: ADD_NOTE,
+      note: {
         _id: 1,
         datetime: now,
         tags: [],

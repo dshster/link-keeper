@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const linkSchema = new mongoose.Schema({
+const noteSchema = new mongoose.Schema({
   card: {
     caption: {
       type: String,
@@ -12,6 +12,17 @@ const linkSchema = new mongoose.Schema({
     },
     description: {
       type: String
+    }
+  },
+  properties: {
+    public: {
+      type: Boolean,
+      default: false
+    },
+    kind: {
+      type: String,
+      enum: ['note', 'link', 'article'],
+      default: 'link'
     }
   },
   datetime: {
@@ -29,4 +40,4 @@ const linkSchema = new mongoose.Schema({
   }
 });
 
-module.exports = mongoose.model('Link', linkSchema);
+module.exports = mongoose.model('Note', noteSchema);

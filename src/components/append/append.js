@@ -2,14 +2,15 @@ import React from 'react';
 
 import './append.css';
 
-const Append = ({ router, statuses, appendLink }) => {
+const Append = ({ router, statuses, appendNote }) => {
   const form = {};
 
   const handleSubmit = event => {
-    appendLink({
+    appendNote({
       caption: form.caption.value,
       href: form.href.value,
       description: form.description.value,
+      public: form.public.checked,
       tags: form.tags.value.split(',')
         .filter(tag => tag)
         .map(tag => tag.trim().toLowerCase())
@@ -48,6 +49,13 @@ const Append = ({ router, statuses, appendLink }) => {
         <input type="text" name="tags" ref={node => {
           form.tags = node
         }}/>
+      </label>
+
+      <label className="form__label">
+        <input type="checkbox" name="public" ref={node => {
+          form.public = node
+        }}/>
+        <span className="form__caption form__caption-inline">открытый доступ</span>
       </label>
 
       <button type="submit" disabled={statuses.fetch}>Добавить</button>
