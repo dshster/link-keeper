@@ -8,7 +8,7 @@ const timeLocaleOptions = ['ru-RU', { hour12: false }];
 
 const Item = ({ card, tags, datetime, shortId }) => (
   <li className="noteItem">
-    <Link to={`/note/${shortId}`}>{card.caption}</Link>
+    <Link to={`/note/${shortId}`} className="captionLink">{card.caption}</Link>
     <span className="date">{(new Date(datetime)).toLocaleDateString(...dateLocaleOptions)}</span>
     <span className="time">{(new Date(datetime)).toLocaleTimeString(...timeLocaleOptions)}</span>
     <ul className="tagsList">

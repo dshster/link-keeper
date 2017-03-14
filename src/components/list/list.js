@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router';
 
-import Item from '../item';
+import listNotes from '../list-notes';
 
 class List extends Component {
   componentWillMount() {
@@ -21,9 +21,7 @@ class List extends Component {
       <div className="list">
         <Link to="/append">Append</Link>
         {statuses.fetch ? (<div>Загрузка...</div>) : ''}
-        <ul>
-          {notes.map(note => <Item {...note} key={note._id}/>)}
-        </ul>
+        <listNotes notes={notes}/>
       </div>
     );
   }
